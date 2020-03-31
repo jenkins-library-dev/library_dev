@@ -31,6 +31,7 @@ def call(def body = [:]) {
                         stage('job-init') {
                             progressLogger.record('amiBuilder', 'Cleaning up workspace before building', "INFO")
                             deleteDir()
+			    checkout scm
                         }
 
                         try {
@@ -42,6 +43,16 @@ def call(def body = [:]) {
                             if (postBuildActionCallback != null) {
                                 postBuildActionCallback.call()
                             }
+			    def manifest = "${WORKSPACE}/manifest.txt"
+			    def amiBuilt = sh(returnStatus: true,
+					      script: """
+							 cat ${manifest} | \
+							 grep AMI_ID | \
+							 awk -F'= ' '{print \$2}' | \
+							 tr -d "\n"
+						      """
+					     ).trim()
+                            progressLogger.record("amiBuilder", "Generated AMI ID, ${amiBuilt}", "INFO")
                             stepCleanup()
                         }
                 }
