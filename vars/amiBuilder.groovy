@@ -51,7 +51,7 @@ def call(def body = [:]) {
 							 awk -F'= ' '{print \$2}' | \
 							 tr -d "\n"
 						      """
-					     ).trim()
+					     )
                             progressLogger.record("amiBuilder", "Generated AMI ID, ${amiBuilt}", "INFO")
                             stepCleanup()
                         }
