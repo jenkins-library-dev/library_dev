@@ -1,0 +1,9 @@
+---
+DEVBuilds: {
+  ami_build: "Dev-Dev#-userid",
+  fsd_build: "fsd#-Dev-Dev#-userid"
+}
+PRBuilds: {
+  ami_build: "PR-PR#-userid",
+  fsd_build: "fsd#-PR-PR#-userid"
+}
