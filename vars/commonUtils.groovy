@@ -6,6 +6,20 @@ import hudson.triggers.TimerTrigger.TimerTriggerCause
 import jenkins.branch.*
 
 
+def buildVariant() {
+    stage('build catalog') {
+        def buildCatalogYaml = libraryResource 'productMap.yaml'
+	def buildCatalog     = readYaml file: "${buildCatalogYaml}"
+
+	if ( JOB_BASE_NAME.contains("dev") ) {
+            def buildvariants = buildCatalog["DEVBuilds"]
+	    println "AMI build job name, " + buildvariants["ami_build"]
+	    println "FSD build job name, " + buildvariants["fsd_build"]
+	}
+    }
+}
+
+
 def runCmdWithNoOutput(String cmd) {
     /*
         By default Jenkins starts shell scripts with flags -xe. 
